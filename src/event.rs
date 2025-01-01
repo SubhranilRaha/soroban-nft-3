@@ -1,5 +1,10 @@
 use soroban_sdk::{Env, Symbol, Address, String, Vec, BytesN};
 
+pub(crate) fn hello(env: &Env) {
+    let topics = (Symbol::new(env, "hello"),);
+    env.events().publish(topics, true);
+}
+
 pub(crate) fn initialized(env: &Env) {
     let topics = (Symbol::new(env, "initialized"),);
     env.events().publish(topics, true);

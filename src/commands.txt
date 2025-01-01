@@ -13,11 +13,18 @@ stellar contract deploy \
 /* --Build and deploy-- */
 
 RUSTFLAGS="-C target-feature=+memory64" cargo build --release --target wasm32-unknown-unknown
-
 stellar contract optimize --wasm target/wasm32-unknown-unknown/release/soroban_nft_collection.wasm
+stellar contract install --network testnet --source alice --wasm target/wasm32-unknown-unknown/release/soroban_nft_collection.optimized.wasm
+stellar contract  deploy \                                                                                                                                
+        --wasm-hash 83740b908f0084f7d9a6b7d464b5adff66a5d613eaef5ab1077ca57a27fb22e6 \
+        --source alice \
+        --network testnet
+
+d67140b01ed70e6e4dc5eb791000a816e5fa4973db31f2920ba4c44271482f2d
+
 
 stellar contract deploy \
-  --wasm target/wasm32-unknown-unknown/release/soroban_nft_collection.optimized.wasm \
+  --wasm target/wasm32-unknown-unknown/release/soroban_token_contract.wasm \
   --source alice \
   --network testnet
 
@@ -27,18 +34,20 @@ stellar contract deploy \
   --network testnet
 
 /* --Deployed address-- */
-// CDQDVXUPHO4YBVCZAMLAV4EC6KX6VMGMHL67IXHM5FIA2WGZUMP365UI
+// CDPOVOPS6MDAVNOY3JMTS7W3KPZLFSF6MTRXJGKIHXBSJXAHNKDT3T3U
 
 /* --Intialize-- */
 
-soroban contract invoke   --id CC7QILT6KYG6FBZREHCQXPQIAOWKKTZYEGC5DCZCOODYQWKSMYUAYDIO   --source alice   --network testnet   --   initialize   --collection_info '{"creator":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","admin":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","minter":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","name":"My NFT Collection","description":"A cool NFT collection","external_link":"https://example.com","royalty_info":{"recipient":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","payment_address":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","share":250},"explicit_content":false,"image":"https://example.com/image.png","start_trading_time":1701014400,"payment_token":"CC7QILT6KYG6FBZREHCQXPQIAOWKKTZYEGC5DCZCOODYQWKSMYUAYDIO"}'   --freeze_minter false
+soroban contract invoke   --id CDANP7CCVMJOR4VSHBI4KSFPCCLHSWOBRBNZLNSXXSTGRU7SOTESBPJZ   --source alice   --network testnet   --   initialize   --collection_info '{"creator":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","admin":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","minter":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","name":"My NFT Collection","description":"A cool NFT collection","external_link":"https://example.com","royalty_info":{"recipient":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","payment_address":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","share":250},"explicit_content":false,"image":"https://example.com/image.png","start_trading_time":1701014400,"payment_token":"CDANP7CCVMJOR4VSHBI4KSFPCCLHSWOBRBNZLNSXXSTGRU7SOTESBPJZ"}'   --freeze_minter false
 
 /* --Mint-- */
 
-soroban contract invoke   --id CDZDFGI2BBJLAE5YCNLSLXFJA2HZHNSZANOJAVVUHH6DMEHX63SZZ7DW   --source alice   --network testnet   -- mint --owner "GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP" --token_uri "QmegTodafnzZdPUanZ2RqnqYF3hoPmGETW8CHNc9SczSCx"
+soroban contract invoke   --id CDANP7CCVMJOR4VSHBI4KSFPCCLHSWOBRBNZLNSXXSTGRU7SOTESBPJZ   --source alice   --network testnet   -- mint --owner "GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP" --token_uri "QmegTodafnzZdPUanZ2RqnqYF3hoPmGETW8CHNc9SczSCx"
 
 soroban contract invoke   --id CDZDFGI2BBJLAE5YCNLSLXFJA2HZHNSZANOJAVVUHH6DMEHX63SZZ7DW   --source alice   --network testnet   -- mint --owner "GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP" --imghash "QmegTodafnzZdPUanZ2RqnqYF3hoPmGETW8CHNc9SczSCx"
 /* --Get all minted tokens-- */
+
+
 
 soroban contract invoke \
   --id CARI4LLST2BKZUO4Q25UGY45T4JMG6XFW2LCBSAWHALGYXDNMUFO3PT7 \
@@ -53,4 +62,14 @@ soroban contract invoke \
   --network testnet \
   -- \
   update_collection_info \
-  --new_collection_info '{"creator":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","admin":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","minter":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","name":"My Updated NFT Collection","description":"An even cooler NFT collection","external_link":"https://example.com/updated","royalty_info":{"recipient":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","payment_address":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","share":250},"explicit_content":false,"image":"https://example.com/updated_image.png","start_trading_time":1701014400,"payment_token":"CC7QILT6KYG6FBZREHCQXPQIAOWKKTZYEGC5DCZCOODYQWKSMYUAYDIO"}'
+  --new_collection_info '{"creator":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","admin":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","minter":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","name":"My Updated NFT Collection","description":"An even cooler NFT collection","external_link":"https://example.com/updated","royalty_info":{"recipient":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","payment_address":"GBAYQ5ILEARAQIO26RRKK7XLN2JP37SM6AKJHGVTQXKZFU56TR2Y4GRP","share":250},"explicit_content":false,"image":"https://example.com/updated_image.png","start_trading_time":1701014400,"payment_token":"CDMNKI5AY4A7PBL3TU7MIQPMOV7U5G7NBK3XYXPIVLVGZEQFZ3ZLZODL"}'
+
+  \* --upgrade-- *\
+  soroban contract invoke \                                                                                            
+  --id CDMNKI5AY4A7PBL3TU7MIQPMOV7U5G7NBK3XYXPIVLVGZEQFZ3ZLZODL \
+  --source alice \
+  --network testnet \
+  -- upgrade \
+  --hash 89c34aa267c7ba8e61de5306e783e849f20c5a023a985274307fa1e096a2dd26
+
+  stellar contract invoke --id CDMNKI5AY4A7PBL3TU7MIQPMOV7U5G7NBK3XYXPIVLVGZEQFZ3ZLZODL --source alice --network testnet -- upgrade --hash 89c34aa267c7ba8e61de5306e783e849f20c5a023a985274307fa1e096a2dd26
